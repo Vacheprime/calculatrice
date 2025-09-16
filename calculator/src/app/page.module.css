@@ -6,12 +6,21 @@
 
 .calculatorPanel {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4fr;
     width: 50%;
     height: 75%;
     max-width: 600px;
     background-color: var(--color-background-light);
     border-radius: 10px;
-    filter: var(--filter-drop-shadow);
+    filter: var(--full-drop-shadow);
+}
+
+.innerCalculatorPanel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    padding: 5px;
+    gap: 5px;
+    height: 100%;
 }
