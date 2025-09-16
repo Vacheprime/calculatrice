@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="mainPageLayout">
         <header>
           <h1>Simple Calculator</h1>
         </header>
