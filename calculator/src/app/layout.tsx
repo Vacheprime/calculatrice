@@ -17,7 +17,7 @@ export default function RootLayout({
         <header>
           <h1>Simple Calculator</h1>
         </header>
-          {children}
+        {children}
       </body>
     </html>
   );

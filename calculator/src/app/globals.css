@@ -8,6 +8,7 @@
   --color-background-blue: hsl(195, 100%, 95%);
   --color-background-light: hsl(0, 100%, 100%);
 
+  /* Color for buttons or input */
   --color-button-normal: hsl(0, 0%, 85%);
   --color-button-dark: hsl(0, 0%, 75%);
   --color-button-darker: hsl(0, 0%, 65%);
@@ -22,6 +23,7 @@
   --bottom-right-drop-shadow: drop-shadow(2px 2px 4px rgba(0, 0, 0, 10%));
 }
 
+/* Base body styling */
 body {
   margin: 0;
   background: var(--color-background-blue);
@@ -29,13 +31,17 @@ body {
   font-family: 'Inter', Arial, sans-serif;
 }
 
+/* Make header a flexbox for aligning the title */
 header {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 70px;
 }
 
+/* Grid styling for the page layout */
 .mainPageLayout {
   display: grid;
-  height: 100vh;
-  grid-template-rows: auto 1fr;
+  height: 100vh; /* Occupy full height */
+  grid-template-rows: auto 1fr; /* 2 rows, header (min) and body (rest of space) */
 }
