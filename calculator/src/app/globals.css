@@ -36,7 +36,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 70px;
 }
 
 /* Grid styling for the page layout */
