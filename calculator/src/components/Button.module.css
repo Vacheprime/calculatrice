@@ -1,15 +1,21 @@
 .button {
     border-radius: 10px;
+    border-style: none;
+    font-weight: bold;
+    filter: var(--bottom-right-drop-shadow);
 }
 
 .inputButton {
-    background-color: var(--color-background-dark);
+    composes: button;
+    background-color: var(--color-button-normal);
 }
 
 .functionButton {
-    background-color: var(--color-background-darker);
+    composes: button;
+    background-color: var(--color-button-dark);
 }
 
 .equalsButton {
-    background-color: hsl(195, 100%, 70%);
+    composes: button;
+    background-color: hsl(195, 100%, 80%);
 }
