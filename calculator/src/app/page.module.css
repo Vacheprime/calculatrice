@@ -1,0 +1,14 @@
+.mainContentContainer {
+    display: flex;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+}
+
+.calculatorPanel {
+    width: 50vw;
+    height: 50vh;
+    background-color: var(--color-background-light);
+    border-radius: 10px;
+    filter: var(--filter-drop-shadow);
+}
