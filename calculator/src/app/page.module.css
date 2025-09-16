@@ -1,13 +1,16 @@
 .mainContentContainer {
     display: flex;
-    height: 100%;
-    align-content: center;
     justify-content: center;
+    align-items: center;
 }
 
 .calculatorPanel {
-    width: 50vw;
-    height: 50vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: 50%;
+    height: 75%;
+    max-width: 600px;
     background-color: var(--color-background-light);
     border-radius: 10px;
     filter: var(--filter-drop-shadow);
