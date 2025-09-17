@@ -1,5 +1,6 @@
 .calculatorInput {
     grid-column: 1 / 5;
+    font-size: var(--font-size-h1);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-style: none;

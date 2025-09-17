@@ -1,7 +1,7 @@
 /* Import the Inter font */
 @import url('https://fonts.googleapis.com/css?family=Inter');
 /* Import a reset stylesheet to remove default, unwanted rules */
-@import 'reset.css';
+@import './reset.css';
 
 :root {
   /* Define global background colors */
@@ -29,6 +29,11 @@ body {
   background: var(--color-background-blue);
   color: var(--color-text-normal);
   font-family: 'Inter', Arial, sans-serif;
+
+  /* Define fluid font sizes using the css clamp calculator */
+  /* Calculator: https://www.marcbacon.com/tools/clamp-calculator/ */
+  --font-size-h1: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --font-size-p: clamp(1rem, 0.75rem + 1vw, 1.5rem);
 }
 
 /* Make header a flexbox for aligning the title */

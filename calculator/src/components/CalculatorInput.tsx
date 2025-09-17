@@ -15,7 +15,7 @@ export class CalculatorInput extends Component<InputProps, InputState> {
     super(props)
   
     this.state = {
-       inputValue: ''
+       inputValue: '1234'
     }
   }
 
