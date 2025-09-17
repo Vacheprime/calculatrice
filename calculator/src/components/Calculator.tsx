@@ -162,6 +162,7 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
   render() {
     // Destructure main calculator container classname
     const {containerClassName} = this.props;
+    // Make the input expression more beautiful for output
     let beautifiedExpression = this.state.inputExpression.replaceAll("*", "×").replaceAll("/", "÷");
 
     return (
