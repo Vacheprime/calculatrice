@@ -112,7 +112,16 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
     if (result == null) {
       return true;
     }
-    this.setState({inputExpression: result.toString()});
+    
+    // Get result without exponential notation
+    let resultStr: string = this.math.format(result.toString(), {
+      notation: "auto",
+      lowerExp: 1e-100,
+      upperExp: 1e100
+    });
+    // Remove trailing and leading double quotes
+    resultStr = resultStr.substring(1, resultStr.length - 1);
+    this.setState({inputExpression: resultStr});
   };
 
   /**
