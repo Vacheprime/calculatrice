@@ -18,16 +18,6 @@
     filter: var(--full-drop-shadow);
 }
 
-/* Inner CSS grid for the button input pad of the calculator */
-.innerCalculatorPanel {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    padding: 5px;
-    gap: 5px;
-    height: 100%;
-}
-
 /* Make the calculator go full screen on mobile (width wise) */
 @media screen and (max-width: 400px), screen and (max-height: 600px) {
     .calculatorPanel {
