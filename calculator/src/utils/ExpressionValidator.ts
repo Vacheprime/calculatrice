@@ -113,8 +113,8 @@ class ExpressionValidator {
             return false;
         }
 
-        // Handle decimal point
-        if (lastChar == ".") {
+        // Handle decimal point and empty operator 
+        if (lastChar == "." || this.isOperator(lastChar)) {
             return false;
         }
 
