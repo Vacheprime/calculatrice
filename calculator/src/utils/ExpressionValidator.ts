@@ -17,9 +17,15 @@ class ExpressionValidator {
 
         // Get last char of expr
         const lastChar: string = expr.at(expr.length - 1)!;
+
+        // Handle decimal point
+        if (lastChar == ".") {
+            return false;
+        }
+        
         // Special case for the minus operator which can serve as negation
         if (operator == "-") {
-            return !this.isOperator(lastChar) && lastChar != ".";
+            return lastChar != "-";
         }
 
         return this.isDigit(lastChar) || lastChar == ")";
