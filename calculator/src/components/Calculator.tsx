@@ -1,26 +1,28 @@
-"use client"
+"use client";
 
 import React, { Component } from 'react'
 import Button from './Button'
 import buttonStyles from './Button.module.css'
 import calculatorStyles from './Calculator.module.css'
 import { create, all, ConfigOptions, ResultSet } from 'mathjs'
+import ExpressionValidator from '@/utils/ExpressionValidator'
 
 /**
  * The accepted properties for the Calculator.
  */
 type CalculatorProps = {
   containerClassName?: string
-}
+};
 
 type CalculatorState = {
   inputExpression: string
-}
+};
 
 
 const mathConfig: ConfigOptions = {
   number: "BigNumber",
-}
+  precision: 10
+};
 
 /**
  * The Calculator component creates a fully usable calculator.
@@ -31,14 +33,14 @@ const mathConfig: ConfigOptions = {
  */
 class Calculator extends Component<CalculatorProps, CalculatorState> {
   // Create the math instance used to eval expressions
-  math = create(all, mathConfig);
+  private math = create(all, mathConfig);
 
   constructor(props: CalculatorProps) {
-    super(props)
+    super(props);
   
     this.state = {
        inputExpression: ''
-    }
+    };
   }
 
   /**
@@ -47,11 +49,8 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
    * @param num the digit to add.
    */
   addDigitToExpr = (digit: string) => {
-    this.setState((previousState) => {
-      const prevExpr = previousState.inputExpression
-      return {inputExpression: prevExpr + digit}
-    });
-  }
+    this.addCharacterToExpr(digit);
+  };
 
   /**
    * Add an operator to the inputExpression.
@@ -59,11 +58,10 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
    * @param operator the operator to add.
    */
   addOperatorToExpr = (operator: string) => {
-    this.setState((previousState) => {
-      const prevExpr = previousState.inputExpression
-      return {inputExpression: prevExpr + operator}
-    });
-  }
+    if (ExpressionValidator.canAddOperator(this.state.inputExpression, operator)) {
+      this.addCharacterToExpr(operator);
+    }
+  };
 
   /**
    * Delete the last character entered.
@@ -71,13 +69,15 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
   deleteLastChar = () => {
     this.setState((previousState) => ({
       inputExpression: previousState.inputExpression.slice(0, -1)
-    }))
-  }
+    }));
+  };
 
 
   addDecimalPointToExpr = () => {
-    this.addCharacterToExpr(".");
-  }
+    if (ExpressionValidator.canAddDecimal(this.state.inputExpression)) {
+      this.addCharacterToExpr(".");
+    }
+  };
 
   /**
    * Add a character to the expression by updating the state.
@@ -85,43 +85,58 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
    * @param char the character to add.
    */
   addCharacterToExpr = (char: string) => {
-    this.setState((previousState) => {
-      return {inputExpression: previousState.inputExpression + char}
-    });
-  }
+    this.setState((previousState) => ({
+      inputExpression: previousState.inputExpression + char
+    }));
+  };
 
   addParenthesisToExpr = (isOpening: boolean) => {
-    const char = isOpening ? "(" : ")"
-    this.addCharacterToExpr(char)
-  }
+    const char = isOpening ? "(" : ")";
+    if (ExpressionValidator.canAddParenthesis(this.state.inputExpression, char)) {
+      this.addCharacterToExpr(char);
+    }
+  };
 
   /**
    * Calculate the result of the expression.
    */
   calculateResult = () => {
-    const result: ResultSet = this.math.evaluate(this.state.inputExpression)
-    this.setState({inputExpression: result.toString()})
-  }
+    let result: ResultSet;
+    try {
+      result = this.math.evaluate(this.state.inputExpression);
+    } catch (error) {
+      return; // Stop due to syntax error. User must complete expression.
+    }
+
+    // Handle no result
+    if (result == null) {
+      return true;
+    }
+    this.setState({inputExpression: result.toString()});
+  };
 
   /**
    * Clear the current expression.
    */
   clearExpr = () => {
-    this.setState({inputExpression: ''})
-  }
+    this.setState({inputExpression: ''});
+  };
 
   render() {
     // Destructure main calculator container classname
     const {containerClassName} = this.props;
+    let beautifiedExpression = this.state.inputExpression.replaceAll("*", "×").replaceAll("/", "÷");
 
     return (
       <div className={containerClassName}>
-        <input className={calculatorStyles.calculatorInput} value={this.state.inputExpression} readOnly={true}></input>
+
+        <input className={calculatorStyles.calculatorInput} value={beautifiedExpression} readOnly={true}></input>
+        
         <div className={calculatorStyles.innerCalculatorPanel}>
           <Button buttonText="+" onClick={() => {this.addOperatorToExpr("+")}} className={buttonStyles.functionButton}/>
           <Button buttonText="-" onClick={() => {this.addOperatorToExpr("-")}} className={buttonStyles.functionButton}/>
-          <Button buttonText="×" onClick={() => {this.addOperatorToExpr("×")}} className={buttonStyles.functionButton}/>
-          <Button buttonText="÷" onClick={() => {this.addOperatorToExpr("÷")}} className={buttonStyles.functionButton}/>
+          <Button buttonText="×" onClick={() => {this.addOperatorToExpr("*")}} className={buttonStyles.functionButton}/>
+          <Button buttonText="÷" onClick={() => {this.addOperatorToExpr("/")}} className={buttonStyles.functionButton}/>
             
           <Button buttonText="7" onClick={() => {this.addDigitToExpr("7")}} className={buttonStyles.inputButton}/>
           <Button buttonText="8" onClick={() => {this.addDigitToExpr("8")}} className={buttonStyles.inputButton}/>
@@ -148,7 +163,7 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
           <Button buttonText="=" onClick={this.calculateResult} className={buttonStyles.equalsButton}/>
         </div>
       </div>
-    )
+    );
   }
 }
 
