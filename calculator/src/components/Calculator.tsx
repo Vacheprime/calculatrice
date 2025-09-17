@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Component } from 'react'
+import React, { Component, RefObject, useRef } from 'react'
 import Button from './Button'
 import buttonStyles from './Button.module.css'
 import calculatorStyles from './Calculator.module.css'
@@ -14,11 +14,16 @@ type CalculatorProps = {
   containerClassName?: string
 };
 
+/**
+ * The state of the calculator component.
+ */
 type CalculatorState = {
   inputExpression: string
 };
 
-
+/**
+ * Configuration options for the Math.JS library.
+ */
 const mathConfig: ConfigOptions = {
   number: "BigNumber",
   precision: 10
@@ -34,6 +39,8 @@ const mathConfig: ConfigOptions = {
 class Calculator extends Component<CalculatorProps, CalculatorState> {
   // Create the math instance used to eval expressions
   private math = create(all, mathConfig);
+  // Ref used to referencing the input
+  private inputRef: React.RefObject<HTMLInputElement | null> = React.createRef();
 
   constructor(props: CalculatorProps) {
     super(props);
@@ -72,7 +79,9 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
     }));
   };
 
-
+  /**
+   * Add a decimal point to the expression.
+   */
   addDecimalPointToExpr = () => {
     if (ExpressionValidator.canAddDecimal(this.state.inputExpression)) {
       this.addCharacterToExpr(".");
@@ -90,6 +99,11 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
     }));
   };
 
+  /**
+   * Add a parenthesis to the expression
+   * @param isOpening A boolean indicating whether the parenthesis is an opening or 
+   * closing parenthesis.
+   */
   addParenthesisToExpr = (isOpening: boolean) => {
     const char = isOpening ? "(" : ")";
     if (ExpressionValidator.canAddParenthesis(this.state.inputExpression, char)) {
@@ -131,6 +145,20 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
     this.setState({inputExpression: ''});
   };
 
+  private setInputCursorToStart = () => {
+    if (this.inputRef.current == null) {
+      return;
+    }
+
+    console.log("Executed");
+    const length: number = this.state.inputExpression.length;
+    
+    
+    this.inputRef.current!.focus();
+    this.inputRef.current!.selectionStart = length;
+    this.inputRef.current!.selectionEnd = length;
+  };
+
   render() {
     // Destructure main calculator container classname
     const {containerClassName} = this.props;
@@ -139,7 +167,7 @@ class Calculator extends Component<CalculatorProps, CalculatorState> {
     return (
       <div className={containerClassName}>
 
-        <input className={calculatorStyles.calculatorInput} value={beautifiedExpression} readOnly={true}></input>
+        <input ref={this.inputRef} className={calculatorStyles.calculatorInput} value={beautifiedExpression} readOnly={true} autoFocus={true}></input>
         
         <div className={calculatorStyles.innerCalculatorPanel}>
           <Button buttonText="+" onClick={() => {this.addOperatorToExpr("+")}} className={buttonStyles.functionButton}/>
