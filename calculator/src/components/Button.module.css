@@ -6,6 +6,10 @@
     filter: var(--bottom-right-drop-shadow);
 }
 
+.button:active {
+    background-color: hsl(0, 0%, 55%);
+}
+
 .inputButton {
     composes: button;
     background-color: var(--color-button-normal);
@@ -19,4 +23,8 @@
 .equalsButton {
     composes: button;
     background-color: hsl(195, 100%, 80%);
+}
+
+.equalsButton:active {
+    background-color: hsl(195, 100%, 70%);
 }
